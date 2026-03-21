@@ -96,7 +96,7 @@
                         <rect key="frame" x="0.0" y="118" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Cochin-Bold" family="Cochin" pointSize="24"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="24"/>
                         </textAttributes>
                     </navigationBar>
                     <connections>
@@ -255,13 +255,21 @@
                     <navigationItem key="navigationItem" title="New Place" id="esw-mW-60H">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RgI-Pa-SS3">
                             <connections>
-                                <segue destination="ipJ-Md-nNf" kind="unwind" unwindAction="cancelAction:" id="ZWo-Vz-tLO"/>
+                                <action selector="cancelAction:" destination="fCb-fs-uco" id="Os5-Km-dEk"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="oqB-Mm-nWK"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="oqB-Mm-nWK">
+                            <connections>
+                                <segue destination="ipJ-Md-nNf" kind="unwind" unwindAction="unwindSegue:" id="cJ9-vd-ulg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="imageOfPlace" destination="OTa-on-41L" id="LFf-Nb-Bjf"/>
+                        <outlet property="placeImage" destination="OTa-on-41L" id="LFf-Nb-Bjf"/>
+                        <outlet property="placeLocation" destination="lrW-Su-2OA" id="Yeg-qj-Ofn"/>
+                        <outlet property="placeName" destination="pwe-jL-lX4" id="G67-3u-rca"/>
+                        <outlet property="placeType" destination="aaI-XG-SaS" id="T5V-B7-bSj"/>
+                        <outlet property="saveButton" destination="oqB-Mm-nWK" id="OGT-dK-FdH"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7m1-9p-Unm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
