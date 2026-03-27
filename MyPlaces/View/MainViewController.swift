@@ -6,11 +6,11 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UITableViewController {
     
-
-    
+    var context: NSManagedObjectContext!
     var places = Place.getPlaces()
     
     override func viewDidLoad() {
