@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F556730B2F76FAA900BBDB1D /* Town+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55673092F76FAA900BBDB1D /* Town+CoreDataClass.swift */; };
+		F556730C2F76FAA900BBDB1D /* Town+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556730A2F76FAA900BBDB1D /* Town+CoreDataProperties.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		F55673092F76FAA900BBDB1D /* Town+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Town+CoreDataClass.swift"; path = "MyPlaces/CoreDataEntities/Town+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F556730A2F76FAA900BBDB1D /* Town+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Town+CoreDataProperties.swift"; path = "MyPlaces/CoreDataEntities/Town+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F56183772F5EAB9200BA7FB3 /* MyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -46,6 +53,8 @@
 		F561836E2F5EAB9100BA7FB3 = {
 			isa = PBXGroup;
 			children = (
+				F55673092F76FAA900BBDB1D /* Town+CoreDataClass.swift */,
+				F556730A2F76FAA900BBDB1D /* Town+CoreDataProperties.swift */,
 				F56183792F5EAB9200BA7FB3 /* MyPlaces */,
 				F56183782F5EAB9200BA7FB3 /* Products */,
 			);
@@ -133,6 +142,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F556730B2F76FAA900BBDB1D /* Town+CoreDataClass.swift in Sources */,
+				F556730C2F76FAA900BBDB1D /* Town+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
