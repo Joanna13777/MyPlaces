@@ -64,7 +64,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="imageOfPlaces" destination="Sks-x9-Dtc" id="ixO-r0-YwY"/>
+                                    <outlet property="imageOfPlace" destination="Sks-x9-Dtc" id="aCq-RW-8Uw"/>
                                     <outlet property="locationLabel" destination="iFi-MF-DVO" id="YtB-Dh-sTw"/>
                                     <outlet property="nameLabel" destination="6bG-yX-Ez4" id="yzt-dk-j7Z"/>
                                     <outlet property="typeLabel" destination="680-Ib-9Pa" id="ufn-7Q-MKm"/>
@@ -79,7 +79,7 @@
                     <navigationItem key="navigationItem" title="My Places" id="N4I-YB-KsR">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ojj-ls-uei">
                             <connections>
-                                <segue destination="dMc-us-IBh" kind="presentation" modalTransitionStyle="crossDissolve" id="MgQ-pY-lar"/>
+                                <segue destination="dMc-us-IBh" kind="presentation" identifier="showNewPlace" modalTransitionStyle="crossDissolve" id="MgQ-pY-lar"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -255,12 +255,12 @@
                     <navigationItem key="navigationItem" title="New Place" id="esw-mW-60H">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RgI-Pa-SS3">
                             <connections>
-                                <action selector="cancelAction:" destination="fCb-fs-uco" id="Os5-Km-dEk"/>
+                                <action selector="cancelAction:" destination="fCb-fs-uco" id="nPQ-j7-FZY"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="oqB-Mm-nWK">
                             <connections>
-                                <segue destination="ipJ-Md-nNf" kind="unwind" unwindAction="unwindSegue:" id="cJ9-vd-ulg"/>
+                                <segue destination="ipJ-Md-nNf" kind="unwind" identifier="unwindSegue" unwindAction="unwindSegue:" id="7TE-Qe-mCF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -269,7 +269,7 @@
                         <outlet property="placeLocation" destination="lrW-Su-2OA" id="Yeg-qj-Ofn"/>
                         <outlet property="placeName" destination="pwe-jL-lX4" id="G67-3u-rca"/>
                         <outlet property="placeType" destination="aaI-XG-SaS" id="T5V-B7-bSj"/>
-                        <outlet property="saveButton" destination="oqB-Mm-nWK" id="OGT-dK-FdH"/>
+                        <outlet property="saveButton" destination="oqB-Mm-nWK" id="6YH-qy-02a"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7m1-9p-Unm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

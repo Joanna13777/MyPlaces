@@ -13,19 +13,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard (scene is UIWindowScene) else { return }
         
-        let nc = window? .rootViewController as! UINavigationController
-        let vc = nc.topViewController as! MainViewController
-        let context = (UIApplication.shared.delegate as? AppDelegate)?.coreDataStack.persistentContainer.viewContext
-        vc.context = context
-    }
+        
+        // Находим MainViewController в иерархии
+            if let navController = window?.rootViewController as? UINavigationController,
+               let mainVC = navController.viewControllers.first as? MainViewController {
+                
+                // Создаем стек и передаем контекст
+                let coreDataStack = CoreDataStack(modelName: "MyPlaces")
+                mainVC.context = coreDataStack.context
+            }
+        }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -44,6 +46,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        
+        let delegate = UIApplication.shared.delegate as? AppDelegate
+            delegate?.coreDataStack.saveContext()
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.

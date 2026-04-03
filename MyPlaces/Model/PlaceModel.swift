@@ -2,34 +2,46 @@
 //  PlaceModel.swift
 //  MyPlaces
 //
-//  Created by Жанна Сергеевна  on 14/03/26.
+//  Created by Жанна Сергеевна  on 31/03/26.
 //
 
+import Foundation
+import CoreData
 import UIKit
 
-struct Place {
+@objc(Place)
+public class Place: NSManagedObject {
+
     
-    var name: String
-    var location: String?
-    var type: String?
-    var image: UIImage?
-    var restaurantImage: String?
-    
+    @NSManaged public var name: String?
+    @NSManaged public var location: String?
+    @NSManaged public var type: String?
+    @NSManaged public var imageData: Data?
+    @NSManaged public var date: Date?
     
     static let restaurantNames = [
-        "Burger Heroes", "Kitchen", "Bonsai", "Дастархан", "Индокитай", "Х.О", "Балкан Гриль",
-        "Sherlock Holmes", "Speak Easy", "Morris Pub", "Вкусные истории", "Классик", "Love&Life",
-        "Шок", "Бочка"
-    ]
-    
-    static func getPlaces() -> [Place] {
+            "Burger Heroes", "Kitchen", "Bonsai", "Дастархан",
+            "Индокитай", "Х.О.X", "Балкан Гриль", "Sherlock Holmes",
+            "Speak Easy", "Morris Pub", "Вкусные истории",
+            "Классик", "Love&Life", "Шок", "Бочка"
+        ]
+
+    // Cобственный инициализатор
+    convenience init(name: String, location: String?, type: String?, image: UIImage?, context: NSManagedObjectContext) {
+            let entity = NSEntityDescription.entity(forEntityName: "Place", in: context)!
+            self.init(entity: entity, insertInto: context)
         
-        var places = [Place]()
-        
-        for place in restaurantNames {
-            places.append(Place(name: place, location: "Ташкент", type: "Ресторан", image: nil, restaurantImage: place))
-        }
-        
-        return places
+        self.name = name
+        self.location = location
+        self.type = type
+        self.imageData = image?.pngData()
+        self.date = Date()
     }
 }
+
+extension Place {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Place> {
+        return NSFetchRequest<Place>(entityName: "Place")
+    }
+}
+

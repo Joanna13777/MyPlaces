@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import CoreData
 
 class NewPlaceViewController: UITableViewController {
     
-    var newPlace: Place?
+    var context: NSManagedObjectContext!
     var imageIsChanged = false
     
     @IBOutlet var saveButton: UIBarButtonItem!
@@ -23,31 +24,38 @@ class NewPlaceViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.tableFooterView = UIView()
-        
+        saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-
+        
     }
     
+    // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             
-            let cameraIcon = #imageLiteral(resourceName: "camera.png")
-            let photoIcon = #imageLiteral(resourceName: "photo.png")
+    
+            let cameraIcon = UIImage(systemName: "camera")
+            let photoIcon = UIImage(systemName: "photo.on.rectangle")
             
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
+            // Action для камеры
             let camera = UIAlertAction(title: "Camera", style: .default) { _ in
                 self.chooseImagePicker(source: .camera)
             }
-            
-            camera.setValue(cameraIcon, forKey: "image")
+            // Безопасная установка иконки
+            if let cameraIcon = cameraIcon {
+                camera.setValue(cameraIcon, forKey: "image")
+            }
             camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             
+            // Action для фото
             let photo = UIAlertAction(title: "Photo", style: .default) { _ in
                 self.chooseImagePicker(source: .photoLibrary)
             }
-            
-            photo.setValue(photoIcon, forKey: "image")
+            if let photoIcon = photoIcon {
+                photo.setValue(photoIcon, forKey: "image")
+            }
             photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
@@ -63,74 +71,76 @@ class NewPlaceViewController: UITableViewController {
     }
     
     func saveNewPlace() {
+        if context == nil {
+                print("❌ КРИТИЧЕСКАЯ ОШИБКА: Context в NewPlaceViewController равен nil!")
+                return
+            }
         
-        var image: UIImage?
+        guard let context = context else {
+            print("❌ Ошибка: Контекст не передан в NewPlaceViewController")
+        return }
         
-        if imageIsChanged {
-            image = placeImage.image
-        } else {
-            image = #imageLiteral(resourceName: "imagePlaceholder.png")
+        let image = imageIsChanged ? placeImage.image : UIImage(named: "imagePlaceholder")
+
+        let _ = Place(name: placeName.text ?? "",
+                      location: placeLocation.text,
+                      type: placeType.text,
+                      image: image,
+                      context: context)
+        
+        do {
+                try context.save()
+                print("✅ Успешно сохранено в Core Data")
+            } catch {
+                print("❌ Ошибка сохранения: \(error.localizedDescription)")
+            }
         }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("➡️ Переход активирован! ID: \(segue.identifier ?? "nil")")
         
-        newPlace = Place(name: placeName.text!,
-                         location: placeLocation.text,
-                         type: placeType.text,
-                         image: image,
-                         restaurantImage: nil)
+        guard let identifier = segue.identifier, identifier == "unwindSegue" else {
+            print("⚠️ Переход проигнорирован (это не unwindSegue или Cancel)")
+            return
+        }
+        print("LOG: Начинаю сохранение...")
+        saveNewPlace()
     }
+    
     
     @IBAction func cancelAction(_ sender: Any) {
-       dismiss(animated: true)
-    }
-}
-
-
-// MARK: - Text field delegate
-
-extension NewPlaceViewController: UITextFieldDelegate {
-    
-    // скрываем клавиатуру по нажатию done
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+        dismiss(animated: true)
     }
     
     @objc private func textFieldChanged() {
-        
-        if placeName.text?.isEmpty == false {
-            saveButton.isEnabled = true
-        } else {
-            saveButton.isEnabled = false
-        }
+        saveButton.isEnabled = !(placeName.text?.isEmpty ?? true)
     }
+    
 }
 
 
-// MARK: - Work with image
-
-extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // MARK: - Text field delegate
     
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+    extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            present(imagePicker, animated: true)
+        func chooseImagePicker(source: UIImagePickerController.SourceType) {
+            if UIImagePickerController.isSourceTypeAvailable(source) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.allowsEditing = true
+                imagePicker.sourceType = source
+                present(imagePicker, animated: true)
+            }
         }
-    
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        placeImage.image = info[.editedImage] as? UIImage
-        placeImage.contentMode = .scaleAspectFill
-        placeImage.clipsToBounds = true
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            placeImage.image = info[.editedImage] as? UIImage
+            placeImage.contentMode = .scaleAspectFill
+            placeImage.clipsToBounds = true
+            
+            imageIsChanged = true
+            dismiss(animated: true)
         
-        imageIsChanged = true
-        
-        dismiss(animated: true)
     }
 }
