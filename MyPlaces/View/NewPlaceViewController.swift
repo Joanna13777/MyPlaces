@@ -10,6 +10,7 @@ import CoreData
 
 class NewPlaceViewController: UITableViewController {
     
+    var currentPlace: Place?
     var context: NSManagedObjectContext!
     var imageIsChanged = false
     
@@ -23,9 +24,11 @@ class NewPlaceViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         tableView.tableFooterView = UIView()
         saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        setupEditScreen()
         
     }
     
@@ -70,77 +73,121 @@ class NewPlaceViewController: UITableViewController {
         }
     }
     
-    func saveNewPlace() {
-        if context == nil {
-                print("❌ КРИТИЧЕСКАЯ ОШИБКА: Context в NewPlaceViewController равен nil!")
-                return
-            }
-        
+    func savePlace() {
+ 
+        // 1. Проверка контекста
         guard let context = context else {
-            print("❌ Ошибка: Контекст не передан в NewPlaceViewController")
-        return }
+            print("❌ КРИТИЧЕСКАЯ ОШИБКА: Context в NewPlaceViewController равен nil!")
+            return
+        }
         
+        // Подготавливаем данные
         let image = imageIsChanged ? placeImage.image : UIImage(named: "imagePlaceholder")
+        let imageData = image?.pngData()
 
-        let _ = Place(name: placeName.text ?? "",
+        // РЕЖИМ РЕДАКТИРОВАНИЯ ИЛИ СОЗДАНИЯ
+        if let place = currentPlace {
+            // Если currentPlace не nil, мы просто обновляем его свойства
+            place.name = placeName.text ?? ""
+            place.location = placeLocation.text
+            place.type = placeType.text
+            place.imageData = imageData
+            // Обновляем дату, чтобы при сортировке по дате объект поднялся наверх
+            place.date = Date()
+            
+            print("Режим редактирования: объект обновлен")
+        } else {
+            // Если currentPlace == nil, создаем новый объект
+            _ = Place(name: placeName.text ?? "",
                       location: placeLocation.text,
                       type: placeType.text,
                       image: image,
                       context: context)
-        
+            
+            print("Режим создания: новый объект добавлен")
+        }
+
+        // 3. ОБЩЕЕ СОХРАНЕНИЕ
         do {
-                try context.save()
-                print("✅ Успешно сохранено в Core Data")
-            } catch {
-                print("❌ Ошибка сохранения: \(error.localizedDescription)")
-            }
+            try context.save()
+            print("✅ Успешно сохранено в Core Data")
+        } catch {
+            print("❌ Ошибка сохранения: \(error.localizedDescription)")
         }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("➡️ Переход активирован! ID: \(segue.identifier ?? "nil")")
-        
-        guard let identifier = segue.identifier, identifier == "unwindSegue" else {
-            print("⚠️ Переход проигнорирован (это не unwindSegue или Cancel)")
-            return
-        }
-        print("LOG: Начинаю сохранение...")
-        saveNewPlace()
     }
     
+    private func setupEditScreen() {
+        if currentPlace != nil {
+            setupNavigationBar()
+            imageIsChanged = true
+            guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
+            
+            
+            placeImage.image = image
+            placeImage.contentMode = .scaleAspectFill
+            placeName.text = currentPlace?.name
+            placeLocation.text = currentPlace?.location
+            placeType.text = currentPlace?.type
+        }
+    }
     
-    @IBAction func cancelAction(_ sender: Any) {
+    private func setupNavigationBar() {
+        if let topItem = navigationController?.navigationBar.topItem {
+            topItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+        navigationItem.leftBarButtonItem = nil
+        title = currentPlace?.name
+        saveButton.isEnabled = true
+    }
+    
+    @IBAction func cancelAction(_ segue: UIStoryboardSegue) {
         dismiss(animated: true)
+    }
+}
+
+// MARK: Text field delegate
+extension NewPlaceViewController: UITextFieldDelegate {
+    
+    // Скрываем клавиатуру по нажатию на Done
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @objc private func textFieldChanged() {
-        saveButton.isEnabled = !(placeName.text?.isEmpty ?? true)
+        
+        if placeName.text?.isEmpty == false {
+            saveButton.isEnabled = true
+        } else {
+            saveButton.isEnabled = false
+        }
     }
-    
 }
 
-
-    // MARK: - Text field delegate
+//MARK: Work with image
+extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func chooseImagePicker(source: UIImagePickerController.SourceType) {
         
-        func chooseImagePicker(source: UIImagePickerController.SourceType) {
-            if UIImagePickerController.isSourceTypeAvailable(source) {
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.allowsEditing = true
-                imagePicker.sourceType = source
-                present(imagePicker, animated: true)
-            }
+        if UIImagePickerController.isSourceTypeAvailable(source) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = source
+            present(imagePicker, animated: true)
         }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            placeImage.image = info[.editedImage] as? UIImage
-            placeImage.contentMode = .scaleAspectFill
-            placeImage.clipsToBounds = true
-            
-            imageIsChanged = true
-            dismiss(animated: true)
+        placeImage.image = info[.editedImage] as? UIImage
+        placeImage.contentMode = .scaleAspectFill
+        placeImage.clipsToBounds = true
         
+        imageIsChanged = true
+        
+        dismiss(animated: true)
     }
 }

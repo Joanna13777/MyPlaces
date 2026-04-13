@@ -25,12 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let context = (UIApplication.shared.delegate as! CoreDataStack).persistentContainer.viewContext
             mainVC.context = context
         }
-//        if let navController = window?.rootViewController as? UINavigationController,
-//                   let mainVC = navController.viewControllers.first as? MainViewController {
-//            
-//                    mainVC.context = coreDataStack.context
-//                }
-                
                 return true
             }
 
@@ -50,6 +44,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+        
+        func applicationWillEnterForeground(_ application: UIApplication) {
+            // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        }
+
+        func applicationDidBecomeActive(_ application: UIApplication) {
+            // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        }
+
+        func applicationWillTerminate(_ application: UIApplication) {
+            // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        }
     }
 
 

@@ -5,7 +5,7 @@
 //  Created by Жанна Сергеевна  on 31/03/26.
 //
 
-import Foundation
+
 import CoreData
 import UIKit
 
@@ -37,6 +37,7 @@ public class Place: NSManagedObject {
         self.imageData = image?.pngData()
         self.date = Date()
     }
+ 
 }
 
 extension Place {
