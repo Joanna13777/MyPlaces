@@ -1,9 +1,4 @@
-//
-//  NewPlaceViewController.swift
-//  MyPlaces
-//
-//  Created by Жанна Сергеевна  on 15/03/26.
-//
+
 
 import UIKit
 import CoreData
@@ -74,10 +69,9 @@ class NewPlaceViewController: UITableViewController {
     }
     
     func savePlace() {
- 
-        // 1. Проверка контекста
+        //  Проверка контекста
         guard let context = context else {
-            print("❌ КРИТИЧЕСКАЯ ОШИБКА: Context в NewPlaceViewController равен nil!")
+            print("DEBUG: Метод savePlace вызван. Контекст: \(context != nil)")
             return
         }
         
@@ -107,7 +101,7 @@ class NewPlaceViewController: UITableViewController {
             print("Режим создания: новый объект добавлен")
         }
 
-        // 3. ОБЩЕЕ СОХРАНЕНИЕ
+        // ОБЩЕЕ СОХРАНЕНИЕ
         do {
             try context.save()
             print("✅ Успешно сохранено в Core Data")

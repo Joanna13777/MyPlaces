@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F56183892F5EAB9700BA7FB3 /* Exceptions for "MyPlaces" folder in "MyPlaces" target */ = {
+		F53981D92FA4D71600129C22 /* Exceptions for "MyPlaces" folder in "MyPlaces" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		F56183792F5EAB9200BA7FB3 /* MyPlaces */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				F56183892F5EAB9700BA7FB3 /* Exceptions for "MyPlaces" folder in "MyPlaces" target */,
+				F53981D92FA4D71600129C22 /* Exceptions for "MyPlaces" folder in "MyPlaces" target */,
 			);
 			path = MyPlaces;
 			sourceTree = "<group>";
@@ -32,7 +32,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F56183742F5EAB9200BA7FB3 /* Frameworks */ = {
+		F53981DA2FA4D72200129C22 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,10 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F53981D32FA4D6B200129C22 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F561836E2F5EAB9100BA7FB3 = {
 			isa = PBXGroup;
 			children = (
 				F56183792F5EAB9200BA7FB3 /* MyPlaces */,
+				F53981D32FA4D6B200129C22 /* Frameworks */,
 				F56183782F5EAB9200BA7FB3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,9 +73,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F561838A2F5EAB9700BA7FB3 /* Build configuration list for PBXNativeTarget "MyPlaces" */;
 			buildPhases = (
-				F56183732F5EAB9200BA7FB3 /* Sources */,
-				F56183742F5EAB9200BA7FB3 /* Frameworks */,
-				F56183752F5EAB9200BA7FB3 /* Resources */,
+				F53981D82FA4D71600129C22 /* Sources */,
+				F53981DA2FA4D72200129C22 /* Frameworks */,
+				F53981DB2FA4D72B00129C22 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -118,7 +126,7 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F56183752F5EAB9200BA7FB3 /* Resources */ = {
+		F53981DB2FA4D72B00129C22 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +136,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F56183732F5EAB9200BA7FB3 /* Sources */ = {
+		F53981D82FA4D71600129C22 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

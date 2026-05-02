@@ -12,13 +12,14 @@
         <scene sceneID="05u-fZ-GfY">
             <objects>
                 <navigationController id="I9z-rD-unH" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3gG-1C-GXl">
-                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="3gG-1C-GXl">
+                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="24"/>
                         </textAttributes>
                         <navigationBarAppearance key="compactScrollEdgeAppearance"/>
+                        <variation key="heightClass=regular-widthClass=regular" insetsLayoutMarginsFromSafeArea="YES"/>
                     </navigationBar>
                     <connections>
                         <segue destination="fqb-bg-dKp" kind="relationship" relationship="rootViewController" id="zYc-n0-raZ"/>
@@ -173,15 +174,15 @@
                             <outlet property="delegate" destination="fCb-fs-uco" id="O6M-Yt-5eq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="New Place" id="esw-mW-60H">
+                    <navigationItem key="navigationItem" title="New Place" largeTitleDisplayMode="always" id="esw-mW-60H">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RgI-Pa-SS3">
                             <connections>
-                                <action selector="cancelAction:" destination="fCb-fs-uco" id="nPQ-j7-FZY"/>
+                                <action selector="cancelAction:" destination="fCb-fs-uco" id="ifR-LN-g1z"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="oqB-Mm-nWK">
                             <connections>
-                                <segue destination="MNm-Ox-eip" kind="unwind" unwindAction="unwindSegue:" id="CFz-yy-t8i"/>
+                                <segue destination="MNm-Ox-eip" kind="unwind" unwindAction="unwindSegue:" id="UPy-DR-u9i"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -190,13 +191,13 @@
                         <outlet property="placeLocation" destination="lrW-Su-2OA" id="Yeg-qj-Ofn"/>
                         <outlet property="placeName" destination="pwe-jL-lX4" id="G67-3u-rca"/>
                         <outlet property="placeType" destination="aaI-XG-SaS" id="T5V-B7-bSj"/>
-                        <outlet property="saveButton" destination="oqB-Mm-nWK" id="6YH-qy-02a"/>
+                        <outlet property="saveButton" destination="oqB-Mm-nWK" id="BpY-6F-9Dc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7m1-9p-Unm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="MNm-Ox-eip" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="624" y="-115"/>
+            <point key="canvasLocation" x="679" y="-130"/>
         </scene>
         <!--My Places-->
         <scene sceneID="R4i-sb-6RG">
@@ -206,10 +207,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="85" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="3rk-Ce-Wmd">
-                                <rect key="frame" x="0.0" y="193" width="393" height="659"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" separatorInsetReference="fromAutomaticInsets" rowHeight="85" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3rk-Ce-Wmd">
+                                <rect key="frame" x="0.0" y="203" width="393" height="649"/>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="9sg-W5-gga" customClass="CustomTableViewCell" customModule="MyPlaces" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="85"/>
@@ -263,7 +263,7 @@
                                             <outlet property="locationLabel" destination="Snz-Dv-Bdj" id="bJD-zS-Kht"/>
                                             <outlet property="nameLabel" destination="aWI-yr-Bhi" id="hXv-BA-08H"/>
                                             <outlet property="typeLabel" destination="zsF-cQ-UtW" id="A4Z-4P-KYb"/>
-                                            <segue destination="fCb-fs-uco" kind="show" identifier="showDetail" id="ueq-6f-dSF"/>
+                                            <segue destination="fCb-fs-uco" kind="show" identifier="showDetail" id="XTh-2O-Cin"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -272,31 +272,44 @@
                                     <outlet property="delegate" destination="fqb-bg-dKp" id="F3C-2t-gI0"/>
                                 </connections>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GMQ-u8-Odl">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7D1-As-Xba">
                                 <rect key="frame" x="0.0" y="162" width="393" height="32"/>
                                 <segments>
                                     <segment title="Date"/>
                                     <segment title="Name"/>
                                 </segments>
+                                <connections>
+                                    <action selector="sortSelection:" destination="fqb-bg-dKp" eventType="valueChanged" id="CD6-WU-RRd"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8Uy-wn-7pU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="GMQ-u8-Odl" firstAttribute="top" secondItem="8Uy-wn-7pU" secondAttribute="top" id="0K6-X7-QxY"/>
-                            <constraint firstItem="GMQ-u8-Odl" firstAttribute="leading" secondItem="3rk-Ce-Wmd" secondAttribute="leading" id="el6-2j-Okl"/>
-                            <constraint firstItem="GMQ-u8-Odl" firstAttribute="trailing" secondItem="3rk-Ce-Wmd" secondAttribute="trailing" id="rXZ-1Z-YuZ"/>
+                            <constraint firstItem="7D1-As-Xba" firstAttribute="top" secondItem="8Uy-wn-7pU" secondAttribute="top" id="6Be-xy-Nej"/>
+                            <constraint firstItem="3rk-Ce-Wmd" firstAttribute="top" secondItem="7D1-As-Xba" secondAttribute="bottom" constant="10" id="MMe-aI-8r7"/>
+                            <constraint firstItem="3rk-Ce-Wmd" firstAttribute="trailing" secondItem="8Uy-wn-7pU" secondAttribute="trailing" id="a3q-Md-Hbj"/>
+                            <constraint firstItem="3rk-Ce-Wmd" firstAttribute="leading" secondItem="8Uy-wn-7pU" secondAttribute="leading" id="eAB-wK-3So"/>
+                            <constraint firstAttribute="bottom" secondItem="3rk-Ce-Wmd" secondAttribute="bottom" id="fHm-c6-7eb"/>
+                            <constraint firstItem="7D1-As-Xba" firstAttribute="leading" secondItem="8Uy-wn-7pU" secondAttribute="leading" id="h2u-TE-ftc"/>
+                            <constraint firstItem="7D1-As-Xba" firstAttribute="trailing" secondItem="8Uy-wn-7pU" secondAttribute="trailing" id="u6V-Gn-ubp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="My Places" id="mwS-ey-Lj3">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="AZ" id="OS9-rN-dhI"/>
+                    <navigationItem key="navigationItem" title="My Places" largeTitleDisplayMode="never" id="mwS-ey-Lj3">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrow.up.and.down.text.horizontal" catalog="system" id="OS9-rN-dhI">
+                            <connections>
+                                <action selector="reversedSorting:" destination="fqb-bg-dKp" id="OsX-FA-c1v"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="rmr-kL-kMp">
                             <connections>
-                                <segue destination="dMc-us-IBh" kind="presentation" id="QLH-U7-cRh"/>
+                                <segue destination="dMc-us-IBh" kind="presentation" identifier="addItem" id="QLH-U7-cRh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="reversedSortingButton" destination="OS9-rN-dhI" id="rL9-Ht-H8j"/>
+                        <outlet property="segmentedControl" destination="7D1-As-Xba" id="8ob-4e-cAK"/>
                         <outlet property="tableView" destination="3rk-Ce-Wmd" id="V5I-Lm-kdc"/>
                     </connections>
                 </viewController>
@@ -309,7 +322,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dMc-us-IBh" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="dXH-aD-iX5"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="dXH-aD-iX5"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cJy-vr-T4W">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -321,15 +334,15 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lDe-ff-6wL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="624" y="-998"/>
+            <point key="canvasLocation" x="679" y="-854"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ueq-6f-dSF"/>
+        <segue reference="XTh-2O-Cin"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="AZ" width="48" height="50"/>
         <image name="Image Of Place" width="249" height="250"/>
+        <image name="arrow.up.and.down.text.horizontal" catalog="system" width="128" height="87"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

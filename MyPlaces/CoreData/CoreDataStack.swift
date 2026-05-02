@@ -1,9 +1,4 @@
-//
-//  CoreData.swift
-//  MyPlaces
-//
-//  Created by Жанна Сергеевна  on 27/03/26.
-//
+
 
 import UIKit
 import CoreData
@@ -18,15 +13,21 @@ class CoreDataStack {
         }
     
     lazy var persistentContainer: NSPersistentContainer = {
-            
-            let container = NSPersistentContainer(name: "MyPlaces")
-            container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-                if let error = error as NSError? {
-                    fatalError("Unresolved error \(error), \(error.userInfo)")
-                }
-            })
-            return container
-        }()
+           // Используем self.modelName вместо "MyPlaces"
+           let container = NSPersistentContainer(name: self.modelName)
+           
+           // Включаем автоматическую миграцию (полезно, если вы добавите новые поля в базу)
+           let description = container.persistentStoreDescriptions.first
+           description?.shouldMigrateStoreAutomatically = true
+           description?.shouldInferMappingModelAutomatically = true
+           
+           container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+               if let error = error as NSError? {
+                   fatalError("Unresolved error \(error), \(error.userInfo)")
+               }
+           })
+        return container
+    }()
 
         // Контекст для работы с данными
         var context: NSManagedObjectContext {

@@ -1,9 +1,3 @@
-//
-//  PlaceModel.swift
-//  MyPlaces
-//
-//  Created by Жанна Сергеевна  on 31/03/26.
-//
 
 
 import CoreData

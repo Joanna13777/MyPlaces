@@ -1,9 +1,3 @@
-//
-//  CustomTableViewCell.swift
-//  MyPlaces
-//
-//  Created by Жанна Сергеевна  on 13/03/26.
-//
 
 import UIKit
 
