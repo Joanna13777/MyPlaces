@@ -296,7 +296,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Places" largeTitleDisplayMode="never" id="mwS-ey-Lj3">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrow.up.and.down.text.horizontal" catalog="system" id="OS9-rN-dhI">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrow.up.to.line.compact" catalog="system" id="OS9-rN-dhI">
                             <connections>
                                 <action selector="reversedSorting:" destination="fqb-bg-dKp" id="OsX-FA-c1v"/>
                             </connections>
@@ -342,7 +342,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Image Of Place" width="249" height="250"/>
-        <image name="arrow.up.and.down.text.horizontal" catalog="system" width="128" height="87"/>
+        <image name="arrow.up.to.line.compact" catalog="system" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

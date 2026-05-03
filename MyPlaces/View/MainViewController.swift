@@ -97,25 +97,43 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     // MARK: - Data Fetching
-
+    
     func fetchData() {
+        guard let context = context, let segmented = segmentedControl else { return }
         
-        guard let context = context else { return }
         let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
         
-        // Сортировка по дате (новые сверху)
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        // Выбираем поле для сортировки
+        let sortKey = segmented.selectedSegmentIndex == 0 ? "date" : "name"
+        
+        // Используем  переменную ascendingSorting для направления
+        let sortDescriptor = NSSortDescriptor(key: sortKey, ascending: ascendingSorting)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
             places = try context.fetch(fetchRequest)
-            print("🔎 В базе сейчас объектов: \(places.count)")
             tableView.reloadData()
-            
         } catch {
-            print("Ошибка загрузки: \(error)")
+            print("Ошибка Core Data: \(error)")
         }
     }
+    
+    //        guard let context = context else { return }
+    //        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+    //
+    //        // Сортировка по дате (новые сверху)
+    //        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+    //        fetchRequest.sortDescriptors = [sortDescriptor]
+    //
+    //        do {
+    //            places = try context.fetch(fetchRequest)
+    //            print("🔎 В базе сейчас объектов: \(places.count)")
+    //            tableView.reloadData()
+    //
+    //        } catch {
+    //            print("Ошибка загрузки: \(error)")
+    //        }
+    //    }
     
     // MARK: - Delete Action
     
@@ -144,7 +162,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Проверяем оба возможных идентификатора (для редактирования и для добавления)
         if segue.identifier == "showDetail" || segue.identifier == "addItem" {
@@ -165,27 +183,36 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func unwindSegue(_ segue: UIStoryboardSegue) {
         
         guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
+        
+        newPlaceVC.savePlace() // Сохраняем данные
+        tableView.reloadData()
+        fetchData()            // перезагружаем данные из Core Data
+    }
     
-           newPlaceVC.savePlace() // Сохраняем данные
-     tableView.reloadData()
-    fetchData()            // перезагружаем данные из Core Data
-}
     
-
     
     @IBAction func sortSelection(_ sender: UISegmentedControl) {
         fetchData()
-        
     }
     
     @IBAction func reversedSorting(_ sender: Any) {
+        //  Меняем значение на противоположное
         ascendingSorting.toggle()
         
-        let imageName = ascendingSorting ? "arrow.up.and.down.text.horizontal" : "arrow.up.and.down"
-            reversedSortingButton.image = UIImage(systemName: imageName)
+        // Меняем иконку в зависимости от состояния
+            if ascendingSorting {
+                // Иконка для сортировки по возрастанию (А-Я)
+                reversedSortingButton.image = UIImage(systemName: "arrow.up.to.line.compact")
+            } else {
+                // Иконка для сортировки по убыванию (Я-А)
+                reversedSortingButton.image = UIImage(systemName: "arrow.down.to.line.compact")
+            }
+            
+            // Обновляем данные
         fetchData()
     }
-
 }
+
+
 
 
