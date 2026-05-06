@@ -5,15 +5,29 @@ import CoreData
 
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    // Свойства для поиска
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var filteredPlaces: [Place] = []
+    
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
+    
+    // свойства
+    var context: NSManagedObjectContext!
+    private var places: [Place] = []
+    private var ascendingSorting = true
+   
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var segmentedControl: UISegmentedControl!
     @IBOutlet var reversedSortingButton: UIBarButtonItem!
     
-    
-    var context: NSManagedObjectContext!
-    var places: [Place] = []
-    var ascendingSorting = true
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,25 +35,37 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             context = appDelegate?.coreDataStack.context
         }
+        // Настройка search controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
         setupInitialData()
         fetchData()
     }
     
     // MARK: - Table view data source
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Если поиск активен, возвращаем количество из отфильтрованного массива
+        if isFiltering {
+            return filteredPlaces.count
+        }
         return places.isEmpty ? 0 : places.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         
-        let place = places[indexPath.row]
+        // ВЫБОР ОБЪЕКТА: фильтрованный или обычный
+        let place = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
         
         cell.nameLabel.text = place.name
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
-        //cell.imageOfPlace.image = UIImage(data: place.imageData!)
+        
         if let imageData = place.imageData {
             cell.imageOfPlace.image = UIImage(data: imageData)
         } else {
@@ -51,17 +77,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         return cell
     }
-    
-    // MARK: - Table view Delegate
-    
-    //    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-    //
-    //        let place = places[indexPath.row]
-    //        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (_, _) in
-    //
-    //            tableView.deleteRows(at: [indexPath], with: .automatic)
-    //            return [deleteAction]
-    
+
     // MARK: - Table view data source
     
     
@@ -110,6 +126,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let sortDescriptor = NSSortDescriptor(key: sortKey, ascending: ascendingSorting)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
+       // fetchRequest.predicate = compoundPredicate
+
+        fetchRequest.predicate = nil
+        
         do {
             places = try context.fetch(fetchRequest)
             tableView.reloadData()
@@ -118,22 +138,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-    //        guard let context = context else { return }
-    //        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
-    //
-    //        // Сортировка по дате (новые сверху)
-    //        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-    //        fetchRequest.sortDescriptors = [sortDescriptor]
-    //
-    //        do {
-    //            places = try context.fetch(fetchRequest)
-    //            print("🔎 В базе сейчас объектов: \(places.count)")
-    //            tableView.reloadData()
-    //
-    //        } catch {
-    //            print("Ошибка загрузки: \(error)")
-    //        }
-    //    }
+
     
     // MARK: - Delete Action
     
@@ -174,9 +179,14 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             newPlaceVC?.context = self.context
             
             //  ПЕРЕДАЕМ ОБЪЕКТ ТОЛЬКО ДЛЯ РЕДАКТИРОВАНИЯ
+            
             if segue.identifier == "showDetail", let indexPath = tableView.indexPathForSelectedRow {
-                newPlaceVC?.currentPlace = places[indexPath.row]
+                // Используем ту же логику выбора
+                newPlaceVC?.currentPlace = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
             }
+//            if segue.identifier == "showDetail", let indexPath = tableView.indexPathForSelectedRow {
+//                newPlaceVC?.currentPlace = places[indexPath.row]
+//            }
         }
     }
     
@@ -213,6 +223,39 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 }
 
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+            // Если строка поиска пуста, фильтровать нечего
+            if searchText.isEmpty {
+                filteredPlaces = []
+                tableView.reloadData()
+                return
+            }
 
-
+            // Создаем запрос к Core Data
+            let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+            
+            // Предикат для поиска по трем полям
+            // [cd] означает Case и Diacritic insensitive (игнорирует регистр и ударения)
+            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR location CONTAINS[cd] %@ OR type CONTAINS[cd] %@", searchText, searchText, searchText)
+            
+            // Добавляем ту же сортировку, что и в основном списке
+            let sortKey = segmentedControl.selectedSegmentIndex == 0 ? "date" : "name"
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: sortKey, ascending: ascendingSorting)]
+            
+            do {
+                // Выполняем поиск в базе
+                filteredPlaces = try context.fetch(fetchRequest)
+            } catch {
+                print("Ошибка поиска в Core Data: \(error)")
+            }
+       
+        tableView.reloadData()
+    }
+    
+}
 

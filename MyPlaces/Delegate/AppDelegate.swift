@@ -10,8 +10,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     lazy var coreDataStack = CoreDataStack(modelName: "MyPlaces")
     
- 
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             
         // Передаем контекст в MainViewController
