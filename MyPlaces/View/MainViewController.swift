@@ -178,15 +178,13 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             // ПЕРЕДАЕМ КОНТЕКСТ ВСЕГДА (и для новых, и для старых)
             newPlaceVC?.context = self.context
             
-            //  ПЕРЕДАЕМ ОБЪЕКТ ТОЛЬКО ДЛЯ РЕДАКТИРОВАНИЯ
+            //  ПЕРЕДАЕМ ОБЪЕКТ ТОЛЬКО ДЛЯ РЕДАКТИРОВАНИЯ. Oбновим получение объекта place, чтобы при нажатии на ячейку в режиме поиска открывалось правильное место:
             
             if segue.identifier == "showDetail", let indexPath = tableView.indexPathForSelectedRow {
                 // Используем ту же логику выбора
                 newPlaceVC?.currentPlace = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
             }
-//            if segue.identifier == "showDetail", let indexPath = tableView.indexPathForSelectedRow {
-//                newPlaceVC?.currentPlace = places[indexPath.row]
-//            }
+
         }
     }
     
@@ -212,10 +210,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Меняем иконку в зависимости от состояния
             if ascendingSorting {
                 // Иконка для сортировки по возрастанию (А-Я)
-                reversedSortingButton.image = UIImage(systemName: "arrow.up.to.line.compact")
+                reversedSortingButton.image = UIImage(systemName: "arrow.down")
             } else {
                 // Иконка для сортировки по убыванию (Я-А)
-                reversedSortingButton.image = UIImage(systemName: "arrow.down.to.line.compact")
+                reversedSortingButton.image = UIImage(systemName: "arrow.up")
             }
             
             // Обновляем данные

@@ -16,9 +16,8 @@
                         <rect key="frame" x="0.0" y="118" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="24"/>
+                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="20"/>
                         </textAttributes>
-                        <navigationBarAppearance key="compactScrollEdgeAppearance"/>
                         <variation key="heightClass=regular-widthClass=regular" insetsLayoutMarginsFromSafeArea="YES"/>
                     </navigationBar>
                     <connections>
@@ -33,7 +32,7 @@
         <scene sceneID="pov-6M-dV4">
             <objects>
                 <tableViewController id="fCb-fs-uco" customClass="NewPlaceViewController" customModule="MyPlaces" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="dXc-vP-ULD">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="dXc-vP-ULD">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -166,6 +165,31 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="110" id="Iik-cG-abC">
+                                        <rect key="frame" x="0.0" y="525" width="393" height="110"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Iik-cG-abC" id="HAR-HH-QoV">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="110"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="252" placeholderIntrinsicHeight="44" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KEJ-tJ-0Yd" customClass="RatingControl" customModule="MyPlaces" customModuleProvider="target">
+                                                    <rect key="frame" x="70.666666666666686" y="33" width="252" height="44"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="starCount">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="size" keyPath="starSize">
+                                                            <size key="value" width="44" height="44"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="KEJ-tJ-0Yd" firstAttribute="centerX" secondItem="HAR-HH-QoV" secondAttribute="centerX" id="eqO-M7-xOl"/>
+                                                <constraint firstItem="KEJ-tJ-0Yd" firstAttribute="centerY" secondItem="HAR-HH-QoV" secondAttribute="centerY" id="hRe-lT-6bA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -174,7 +198,7 @@
                             <outlet property="delegate" destination="fCb-fs-uco" id="O6M-Yt-5eq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="New Place" largeTitleDisplayMode="always" id="esw-mW-60H">
+                    <navigationItem key="navigationItem" title="New Place" largeTitleDisplayMode="always" style="browser" id="esw-mW-60H">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RgI-Pa-SS3">
                             <connections>
                                 <action selector="cancelAction:" destination="fCb-fs-uco" id="ifR-LN-g1z"/>
@@ -197,7 +221,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7m1-9p-Unm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="MNm-Ox-eip" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="679" y="-130"/>
+            <point key="canvasLocation" x="674.04580152671758" y="-130.28169014084509"/>
         </scene>
         <!--My Places-->
         <scene sceneID="R4i-sb-6RG">
@@ -296,7 +320,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Places" largeTitleDisplayMode="never" id="mwS-ey-Lj3">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrow.up.to.line.compact" catalog="system" id="OS9-rN-dhI">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrow.down" catalog="system" id="OS9-rN-dhI">
                             <connections>
                                 <action selector="reversedSorting:" destination="fqb-bg-dKp" id="OsX-FA-c1v"/>
                             </connections>
@@ -342,7 +366,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Image Of Place" width="249" height="250"/>
-        <image name="arrow.up.to.line.compact" catalog="system" width="128" height="128"/>
+        <image name="arrow.down" catalog="system" width="118" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
