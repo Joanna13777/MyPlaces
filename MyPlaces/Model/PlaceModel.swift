@@ -12,6 +12,7 @@ public class Place: NSManagedObject {
     @NSManaged public var type: String?
     @NSManaged public var imageData: Data?
     @NSManaged public var date: Date?
+
     
     static let restaurantNames = [
             "Burger Heroes", "Kitchen", "Bonsai", "Дастархан",
