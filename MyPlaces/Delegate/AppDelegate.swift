@@ -12,6 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             
+       
+        
         // Передаем контекст в MainViewController
             if let navController = window?.rootViewController as? UINavigationController,
                let mainVC = navController.viewControllers.first as? MainViewController {

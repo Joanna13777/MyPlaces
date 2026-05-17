@@ -100,7 +100,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                               location: "Ташкент",
                               type: "Ресторан",
                               image: image,
-                              context: context)
+                              context: context,
+                              rating: Double(Int16()))
                 }
                 
                 // Сохраняем всё в память устройства

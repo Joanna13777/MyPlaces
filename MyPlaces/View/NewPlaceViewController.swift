@@ -5,7 +5,7 @@ import CoreData
 
 class NewPlaceViewController: UITableViewController {
     
-    var currentPlace: Place?
+    var currentPlace: Place!
     var context: NSManagedObjectContext!
     var imageIsChanged = false
     
@@ -14,11 +14,14 @@ class NewPlaceViewController: UITableViewController {
     @IBOutlet var placeName: UITextField!
     @IBOutlet var placeLocation: UITextField!
     @IBOutlet var placeType: UITextField!
-    
+    @IBOutlet var ratingControl: RatingControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Выводит в консоль путь к папке приложения, где лежит база данных
+            if let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                print("Путь к базе данных Core Data: \(url.path)")
+            }
         
         tableView.tableFooterView = UIView(frame: CGRect(x: 0,
                                                          y: 0,
@@ -89,8 +92,10 @@ class NewPlaceViewController: UITableViewController {
             place.location = placeLocation.text
             place.type = placeType.text
             place.imageData = imageData
+            place.rating = Int(Int16(ratingControl.rating))
             // Обновляем дату, чтобы при сортировке по дате объект поднялся наверх
             place.date = Date()
+            
             
             print("Режим редактирования: объект обновлен")
         } else {
@@ -99,7 +104,8 @@ class NewPlaceViewController: UITableViewController {
                       location: placeLocation.text,
                       type: placeType.text,
                       image: image,
-                      context: context)
+                      context: context,
+                      rating: Double(ratingControl.rating))
             
             print("Режим создания: новый объект добавлен")
         }
@@ -117,6 +123,9 @@ class NewPlaceViewController: UITableViewController {
         if currentPlace != nil {
             setupNavigationBar()
             imageIsChanged = true
+            
+           
+            
             guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
             
             
@@ -125,6 +134,8 @@ class NewPlaceViewController: UITableViewController {
             placeName.text = currentPlace?.name
             placeLocation.text = currentPlace?.location
             placeType.text = currentPlace?.type
+            // Переводим Int16 из базы данных в Int для кнопок со звездами
+            ratingControl.rating = Int(currentPlace.rating)
         }
     }
     

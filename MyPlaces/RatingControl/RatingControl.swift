@@ -3,11 +3,17 @@ import UIKit
 @IBDesignable class RatingControl: UIStackView {
     
     // MARK: - Properties
+   
     var rating = 0 {
         didSet {
             updateButtonSelectionStates()
+            // Вызываем замыкание и передаем новый рейтинг наружу
+                    onRatingChange?(rating)
         }
     }
+    // ТУТ ОБЪЯВЛЯЕМ ЗАМЫКАНИЕ:
+        // Оно принимает Int (новый рейтинг) и ничего не возвращает (Void)
+    var onRatingChange: ((Int) -> Void)?
     
     private var ratingButtons = [UIButton]()
     
