@@ -32,6 +32,16 @@ import UIKit
             self.spacing = starSpacing
         }
     }
+    
+//    override var intrinsicContentSize: CGSize {
+//        let buttonWidth = Int(starSize.width)
+//        let buttonHeight = Int(starSize.height)
+//        
+//        // Считаем общую ширину: (ширина звезды * количество) + (отступы * (количество - 1))
+//        let width = (buttonWidth * starCount) + (starSpacing * (starCount - 1))
+//        
+//        return CGSize(width: width, height: buttonHeight)
+//    }
 
     // MARK: - Initializator
     override init(frame: CGRect) {

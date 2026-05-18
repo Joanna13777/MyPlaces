@@ -75,6 +75,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2
         cell.imageOfPlace.clipsToBounds = true
         
+        // Передаем рейтинг из Core Data (Int16) в контроллер звезд (Int)
+            cell.cellRatingControl.rating = Int(place.rating)
+        
         return cell
     }
 
@@ -186,7 +189,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             //  ПЕРЕДАЕМ ОБЪЕКТ ТОЛЬКО ДЛЯ РЕДАКТИРОВАНИЯ. Oбновим получение объекта place, чтобы при нажатии на ячейку в режиме поиска открывалось правильное место:
             
-            if segue.identifier == "showDetail", let indexPath = tableView.indexPathForSelectedRow {
+            if segue.identifier == "showDetail",
+                let indexPath = tableView.indexPathForSelectedRow {
                 // Используем ту же логику выбора
                 newPlaceVC?.currentPlace = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
             }

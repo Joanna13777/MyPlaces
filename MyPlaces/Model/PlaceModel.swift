@@ -12,7 +12,7 @@ public class Place: NSManagedObject {
     @NSManaged public var type: String?
     @NSManaged public var imageData: Data?
     @NSManaged public var date: Date?
-    @objc dynamic var rating = 0
+    @objc dynamic var rating = 0.0
 
     
     static let restaurantNames = [
@@ -32,7 +32,7 @@ public class Place: NSManagedObject {
         self.type = type
         self.imageData = image?.pngData()
         self.date = Date()
-        self.rating = Int(rating)
+        self.rating = Double(Int(rating))
     }
  
 }

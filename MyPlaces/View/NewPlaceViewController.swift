@@ -14,7 +14,9 @@ class NewPlaceViewController: UITableViewController {
     @IBOutlet var placeName: UITextField!
     @IBOutlet var placeLocation: UITextField!
     @IBOutlet var placeType: UITextField!
+    
     @IBOutlet var ratingControl: RatingControl!
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,7 +94,7 @@ class NewPlaceViewController: UITableViewController {
             place.location = placeLocation.text
             place.type = placeType.text
             place.imageData = imageData
-            place.rating = Int(Int16(ratingControl.rating))
+            place.rating = Double(Int(Int16(ratingControl.rating)))
             // Обновляем дату, чтобы при сортировке по дате объект поднялся наверх
             place.date = Date()
             
