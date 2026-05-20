@@ -53,7 +53,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if isFiltering {
             return filteredPlaces.count
         }
-        return places.isEmpty ? 0 : places.count
+        return places.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,18 +66,17 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
         
+        // Если внутри CustomTableViewCell есть свой RatingControl, ему нужно передать значение:
+        cell.cellRatingControl.rating = Int(place.rating)
+        
         if let imageData = place.imageData {
             cell.imageOfPlace.image = UIImage(data: imageData)
         } else {
             cell.imageOfPlace.image = UIImage(named: "imagePlaceholder")
         }
-        
-        cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2
-        cell.imageOfPlace.clipsToBounds = true
-        
-        // Передаем рейтинг из Core Data (Int16) в контроллер звезд (Int)
-            cell.cellRatingControl.rating = Int(place.rating)
-        
+
+        cell.cellRatingControl.backgroundColor = .clear // Убирает дефолтное серо-белое выделение при тапе
+      
         return cell
     }
 
@@ -104,7 +103,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                               type: "Ресторан",
                               image: image,
                               context: context,
-                              rating: Double(Int16()))
+                              rating: Int16(0))
                 }
                 
                 // Сохраняем всё в память устройства
@@ -199,11 +198,15 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func unwindSegue(_ segue: UIStoryboardSegue) {
-        
         guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
         
         newPlaceVC.savePlace() // Сохраняем данные
         tableView.reloadData()
+        
+        // Сбрасываем кэш поиска, если он был активен
+            if isFiltering {
+                searchController.isActive = false
+            }
         fetchData()            // перезагружаем данные из Core Data
     }
     

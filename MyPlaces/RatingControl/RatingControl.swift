@@ -3,7 +3,8 @@ import UIKit
 @IBDesignable class RatingControl: UIStackView {
     
     // MARK: - Properties
-   
+    private var ratingButtons = [UIButton]()
+    
     var rating = 0 {
         didSet {
             updateButtonSelectionStates()
@@ -14,8 +15,6 @@ import UIKit
     // ТУТ ОБЪЯВЛЯЕМ ЗАМЫКАНИЕ:
         // Оно принимает Int (новый рейтинг) и ничего не возвращает (Void)
     var onRatingChange: ((Int) -> Void)?
-    
-    private var ratingButtons = [UIButton]()
     
     @IBInspectable var starSize: CGSize = CGSize(width: 30.0, height: 30.0) {
         didSet {
@@ -32,16 +31,6 @@ import UIKit
             self.spacing = starSpacing
         }
     }
-    
-//    override var intrinsicContentSize: CGSize {
-//        let buttonWidth = Int(starSize.width)
-//        let buttonHeight = Int(starSize.height)
-//        
-//        // Считаем общую ширину: (ширина звезды * количество) + (отступы * (количество - 1))
-//        let width = (buttonWidth * starCount) + (starSpacing * (starCount - 1))
-//        
-//        return CGSize(width: width, height: buttonHeight)
-//    }
 
     // MARK: - Initializator
     override init(frame: CGRect) {
@@ -53,25 +42,6 @@ import UIKit
         super.init(coder: coder)
         setupButtons()
     }
-    
-    // MARK: - Button Action
-    @objc func ratingButtonTapped(button: UIButton) {
-        
-        guard let index = ratingButtons.firstIndex(of: button) else { return }
-        
-        // Вычисляем выбранный рейтинг
-        let selectedRating = index + 1
-        
-        if selectedRating == rating {
-            // Если нажали на ту же звезду, что уже выбрана — сбрасываем в 0
-            rating = 0
-        } else {
-            // Иначе присваиваем номер выбранной звезды
-            rating = selectedRating
-        }
-        
-    }
-    
    
     // MARK: - Private Methods
     private func setupButtons() {
@@ -95,6 +65,7 @@ import UIKit
         for _ in 0..<starCount {
             
             let button = UIButton(type: .system) // Используем системный тип для корректной работы конфигураций
+        
             
             // Обработчик обновления состояний
             var buttonConfig = UIButton.Configuration.plain()
@@ -124,9 +95,12 @@ import UIKit
             button.heightAnchor.constraint(equalToConstant: starSize.height).isActive = true
             button.widthAnchor.constraint(equalToConstant: starSize.width).isActive = true
                         
+            // Разрешаем кнопке реагировать на клики
+            button.isUserInteractionEnabled = true
+
                 // Добавляем экшен нажатия
-              button.addTarget(self, action: #selector(ratingButtonTapped(button:)), for: .touchUpInside)
-            
+            button.addTarget(self, action: #selector(ratingButtonTapped(button:)), for: .touchUpInside)
+           
             addArrangedSubview(button) // Поместим кнопку в StackView
             ratingButtons.append(button) // Добавим новую кнопку в массив кнопок рейтинга.
         }
@@ -136,8 +110,28 @@ import UIKit
     
     private func updateButtonSelectionStates() {
         for (index, button) in ratingButtons.enumerated() {
+            // Если индекс кнопки меньше рейтинга, то кнопка должна быть выделена
             button.isSelected = index < rating
+            print("✅ Успешно сохранено в Core Data")
         }
+    }
+    // MARK: - Button Action
+    @objc func ratingButtonTapped(button: UIButton) {
+        print("Нажата звезда!")
+        
+        guard let index = ratingButtons.firstIndex(of: button) else { return }
+        
+        // Вычисляем выбранный рейтинг
+        let selectedRating = index + 1
+        
+        if selectedRating == rating {
+            // Если нажали на ту же звезду, что уже выбрана — сбрасываем в 0
+            rating = 0
+        } else {
+            // Иначе присваиваем номер выбранной звезды
+            rating = selectedRating
+        }
+        
     }
 }
 

@@ -12,7 +12,7 @@ public class Place: NSManagedObject {
     @NSManaged public var type: String?
     @NSManaged public var imageData: Data?
     @NSManaged public var date: Date?
-    @objc dynamic var rating = 0.0
+    @NSManaged public var rating: Int16
 
     
     static let restaurantNames = [
@@ -23,7 +23,7 @@ public class Place: NSManagedObject {
         ]
 
     // Cобственный инициализатор
-    convenience init(name: String, location: String?, type: String?, image: UIImage?, context: NSManagedObjectContext, rating: Double) {
+    convenience init(name: String, location: String?, type: String?, image: UIImage?, context: NSManagedObjectContext, rating: Int16) {
             let entity = NSEntityDescription.entity(forEntityName: "Place", in: context)!
             self.init(entity: entity, insertInto: context)
         
@@ -32,7 +32,7 @@ public class Place: NSManagedObject {
         self.type = type
         self.imageData = image?.pngData()
         self.date = Date()
-        self.rating = Double(Int(rating))
+        self.rating = Int16(rating)
     }
  
 }

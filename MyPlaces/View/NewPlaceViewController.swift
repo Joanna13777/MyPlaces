@@ -8,6 +8,7 @@ class NewPlaceViewController: UITableViewController {
     var currentPlace: Place!
     var context: NSManagedObjectContext!
     var imageIsChanged = false
+    var currentRating = 0.0
     
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBOutlet var placeImage: UIImageView!
@@ -32,7 +33,6 @@ class NewPlaceViewController: UITableViewController {
         saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         setupEditScreen()
-        
     }
     
     // MARK: - Table View Delegate
@@ -94,7 +94,8 @@ class NewPlaceViewController: UITableViewController {
             place.location = placeLocation.text
             place.type = placeType.text
             place.imageData = imageData
-            place.rating = Double(Int(Int16(ratingControl.rating)))
+            place.rating = Int16(ratingControl.rating)
+        //    place.rating = Double(Int(Int16(ratingControl.rating)))
             // Обновляем дату, чтобы при сортировке по дате объект поднялся наверх
             place.date = Date()
             
@@ -107,7 +108,7 @@ class NewPlaceViewController: UITableViewController {
                       type: placeType.text,
                       image: image,
                       context: context,
-                      rating: Double(ratingControl.rating))
+                      rating: Int16(ratingControl.rating))
             
             print("Режим создания: новый объект добавлен")
         }
@@ -122,11 +123,10 @@ class NewPlaceViewController: UITableViewController {
     }
     
     private func setupEditScreen() {
+        
         if currentPlace != nil {
             setupNavigationBar()
             imageIsChanged = true
-            
-           
             
             guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
             
@@ -137,7 +137,7 @@ class NewPlaceViewController: UITableViewController {
             placeLocation.text = currentPlace?.location
             placeType.text = currentPlace?.type
             // Переводим Int16 из базы данных в Int для кнопок со звездами
-            ratingControl.rating = Int(currentPlace.rating)
+            ratingControl.rating = Int(currentPlace?.rating ?? 0)
         }
     }
     
