@@ -189,11 +189,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             //  ПЕРЕДАЕМ ОБЪЕКТ ТОЛЬКО ДЛЯ РЕДАКТИРОВАНИЯ. Oбновим получение объекта place, чтобы при нажатии на ячейку в режиме поиска открывалось правильное место:
             
             if segue.identifier == "showDetail",
-                let indexPath = tableView.indexPathForSelectedRow {
+               let indexPath = tableView.indexPathForSelectedRow {
                 // Используем ту же логику выбора
                 newPlaceVC?.currentPlace = isFiltering ? filteredPlaces[indexPath.row] : places[indexPath.row]
             }
-
         }
     }
     
