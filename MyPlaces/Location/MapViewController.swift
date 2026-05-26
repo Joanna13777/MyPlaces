@@ -11,13 +11,15 @@ import MapKit
 class MapViewController: UIViewController {
 
     var place: Place!
+    let annotationIdentifier = "annotationIdentifier"
     
     @IBOutlet var mapView: MKMapView!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // делегат для протокола аннотации MapViewController
+        mapView.delegate = self
         setupPlaceMark()
     }
     
@@ -61,4 +63,38 @@ class MapViewController: UIViewController {
         }
     }
 
+}
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // если маркером на карте является текущее положение пользователя, аннотация не создается
+        guard !(annotation is MKUserLocation) else { return nil }
+        
+       // объект класса
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKMarkerAnnotationView
+        
+        // если на карте нет аннотации, по инициализатору присваиваем новое значение класса MKAnnotationView
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView?.canShowCallout = true // отображает аннотацию в виде банера
+        }
+        
+        // Отображает изображение заведения в банере Map
+        
+       
+        if let imageData = place.imageData {  // проверяем опциональное значение на nil
+            
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+            // внешний вид изображения
+            imageView.layer.cornerRadius = 10
+            imageView.clipsToBounds = true
+            // поместим изображение в imageView
+            imageView.image = UIImage(data: imageData)
+            annotationView?.rightCalloutAccessoryView = imageView
+        }
+        
+        // возрщаем объект
+        return annotationView
+    }
 }
