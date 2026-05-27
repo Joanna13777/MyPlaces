@@ -10,7 +10,13 @@ import MapKit
 
 class MapViewController: UIViewController {
 
-    var place: Place!
+   // var place: Place!
+    
+    var placeName: String?
+        var placeLocation: String?
+        var placeType: String?
+        var placeImageData: Data?
+    
     let annotationIdentifier = "annotationIdentifier"
     
     @IBOutlet var mapView: MKMapView!
@@ -31,7 +37,7 @@ class MapViewController: UIViewController {
     private func setupPlaceMark() {
         
         // адрес
-        guard let location = place.location else { return }
+        guard let location = placeLocation else { return }
         
         //  отвечает за геогр. координаты и геогр. названия по адресу
         let geocoder = CLGeocoder()
@@ -50,8 +56,8 @@ class MapViewController: UIViewController {
             let placemark = placemarks.first
             
             let annotation = MKPointAnnotation()
-            annotation.title = self.place.name // описывает точку объекта на карте-заголовок
-            annotation.subtitle = self.place.type // описывает точку объекта на карте - подзаголовок объекта
+            annotation.title = self.placeName // описывает точку объекта на карте-заголовок
+            annotation.subtitle = self.placeType // описывает точку объекта на карте - подзаголовок объекта
             
             // свойство определяет местоположение маркера
             guard let placemarkLocation = placemark?.location else { return }
@@ -80,10 +86,10 @@ extension MapViewController: MKMapViewDelegate {
             annotationView?.canShowCallout = true // отображает аннотацию в виде банера
         }
         
-        // Отображает изображение заведения в банере Map
+        // Отображает изображение заведения в банере Map. Проверяем новые переданные данные изображения placeImageData
         
        
-        if let imageData = place.imageData {  // проверяем опциональное значение на nil
+        if let imageData = placeImageData {  // проверяем опциональное значение на nil
             
             let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
             // внешний вид изображения

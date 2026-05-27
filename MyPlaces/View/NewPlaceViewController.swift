@@ -79,12 +79,14 @@ class NewPlaceViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier != "showMap" {
-            return
-        }
+        if segue.identifier != "showMap" { return }
         
         let mapVC = segue.destination as! MapViewController
-        mapVC.place = currentPlace
+        // Передаем данные напрямую в свойства контроллера карты
+            mapVC.placeName = placeName.text
+            mapVC.placeLocation = placeLocation.text
+            mapVC.placeType = placeType.text
+            mapVC.placeImageData = placeImage.image?.pngData()
     }
     
     func savePlace() {

@@ -400,8 +400,8 @@
                                     <constraint firstAttribute="height" constant="30" id="Khj-jh-1Jp"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" buttonSize="large">
-                                    <imageReference key="image" image="xmark" catalog="system" symbolScale="medium"/>
+                                <buttonConfiguration key="configuration" style="filled">
+                                    <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="medium"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -412,7 +412,7 @@
                         <viewLayoutGuide key="safeArea" id="RZq-Qm-zV7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Bq5-rn-bOV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RZq-Qm-zV7" secondAttribute="leading" symbolic="YES" id="B5y-cU-Kle"/>
+                            <constraint firstItem="Bq5-rn-bOV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aRh-m4-Sjm" secondAttribute="leading" symbolic="YES" id="B5y-cU-Kle"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="bottom" secondItem="RZq-Qm-zV7" secondAttribute="bottom" id="Lg5-ef-ZvR"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="trailing" secondItem="RZq-Qm-zV7" secondAttribute="trailing" id="QXi-lG-0jV"/>
                             <constraint firstItem="Bq5-rn-bOV" firstAttribute="top" secondItem="RZq-Qm-zV7" secondAttribute="top" constant="8" id="SQy-gZ-1Y8"/>
