@@ -1,23 +1,23 @@
-//
-//  MapViewController.swift
-//  MyPlaces
-//
-//  Created by Жанна Сергеевна  on 22/05/26.
-//
 
 import UIKit
 import MapKit
+import CoreLocation
+
+
 
 class MapViewController: UIViewController {
 
-   // var place: Place!
+    var place = Place()
     
-    var placeName: String?
+        var placeName: String?
         var placeLocation: String?
         var placeType: String?
         var placeImageData: Data?
     
     let annotationIdentifier = "annotationIdentifier"
+    
+    // Объявляем locationManager как свойство класса (исправляет ошибку scope
+       let locationManager = CLLocationManager()
     
     @IBOutlet var mapView: MKMapView!
     
@@ -27,6 +27,11 @@ class MapViewController: UIViewController {
         // делегат для протокола аннотации MapViewController
         mapView.delegate = self
         setupPlaceMark()
+        
+        // Вызываем настройку менеджера
+        setupLocationManager()
+              checkLocationAuthorization()
+        checkLocationServices()
     }
     
     @IBAction func closeCV() {
@@ -61,14 +66,49 @@ class MapViewController: UIViewController {
             
             // свойство определяет местоположение маркера
             guard let placemarkLocation = placemark?.location else { return }
-                    annotation.coordinate = placemarkLocation.coordinate
+            
+            annotation.coordinate = placemarkLocation.coordinate
                     
-                    // видимая область для аннотации
-                    self.mapView.showAnnotations([annotation], animated: true)
-                    self.mapView.selectAnnotation(annotation, animated: true) // выделяем созданную аннотацию
+            // видимая область для аннотации
+            self.mapView.showAnnotations([annotation], animated: true)
+            self.mapView.selectAnnotation(annotation, animated: true) // выделяем созданную аннотацию
         }
     }
 
+    private func checkLocationServices() {
+        
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            checkLocationAuthorization()
+        } else {
+            // Показать алерт
+        }
+    }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    private func checkLocationAuthorization() {
+        let status = locationManager.authorizationStatus
+        
+        switch status {
+        case .authorizedWhenInUse:
+            mapView.showsUserLocation = true
+        case .denied:
+            // Показать алерт
+            break
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            break
+        case .authorizedAlways:
+            break
+        @unknown default:
+            print("New case is available")
+        }
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -102,5 +142,11 @@ extension MapViewController: MKMapViewDelegate {
         
         // возрщаем объект
         return annotationView
+    }
+}
+extension MapViewController: CLLocationManagerDelegate {
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkLocationAuthorization()
     }
 }
