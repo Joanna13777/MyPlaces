@@ -14,10 +14,11 @@ class MapViewController: UIViewController {
         var placeType: String?
         var placeImageData: Data?
     
+    // Объявляем locationManager как свойство класса
+    let locationManager = CLLocationManager()
     let annotationIdentifier = "annotationIdentifier"
-    
-    // Объявляем locationManager как свойство класса (исправляет ошибку scope
-       let locationManager = CLLocationManager()
+    let regionInMeters = 10_000.00
+  
     
     @IBOutlet var mapView: MKMapView!
     
@@ -29,9 +30,20 @@ class MapViewController: UIViewController {
         setupPlaceMark()
         
         // Вызываем настройку менеджера
-        setupLocationManager()
-              checkLocationAuthorization()
         checkLocationServices()
+    }
+    
+    @IBAction func centerViewInUserLocation() {
+        
+        // проверяем координаты пользователя
+        if let location = locationManager.location?.coordinate {
+            // если координаты пользователя определены, определяем регион для позиционирования карты
+            let region = MKCoordinateRegion(center: location,
+                                            latitudinalMeters: regionInMeters,
+                                            longitudinalMeters: regionInMeters)
+            //  регион для отображения на экране
+            mapView.setRegion(region, animated: true)
+        }
     }
     
     @IBAction func closeCV() {
@@ -81,7 +93,11 @@ class MapViewController: UIViewController {
             setupLocationManager()
             checkLocationAuthorization()
         } else {
-            // Показать алерт
+            // позволяет отложить вызов Alert на определенное время - сейчас +1 сек
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Your Location is not Availeble",
+                               message: "To give permission Go to: Setting -> MyPlaces -> Location")
+            }
         }
     }
     
@@ -97,7 +113,11 @@ class MapViewController: UIViewController {
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
         case .denied:
-            // Показать алерт
+            // позволяет отложить вызов Alert на определенное время - сейчас +1 сек
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Your Location is not Availeble",
+                               message: "To give permission Go to: Setting -> MyPlaces -> Location")
+            }
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -108,6 +128,14 @@ class MapViewController: UIViewController {
         @unknown default:
             print("New case is available")
         }
+    }
+    private func showAlert(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }
 

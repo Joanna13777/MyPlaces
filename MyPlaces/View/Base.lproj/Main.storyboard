@@ -394,31 +394,54 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="818"/>
                                 <imageryMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-rn-bOV">
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-rn-bOV" userLabel="Close">
                                 <rect key="frame" x="355" y="67" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Khj-jh-1Jp"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled">
-                                    <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="medium"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="xmark.app.fill" catalog="system" symbolScale="default" renderingMode="original"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30" scale="large" weight="medium"/>
+                                </state>
                                 <connections>
                                     <action selector="closeCV" destination="Puf-gb-v1s" eventType="touchUpInside" id="7hh-7L-Dbf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="40" placeholderIntrinsicHeight="40" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4B-dC-sA6" userLabel="Location">
+                                <rect key="frame" x="345" y="738" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="G9k-wX-1QR"/>
+                                    <constraint firstAttribute="height" constant="40" id="g7q-ln-wiL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="location.circle.fill" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="location.circle.fill" catalog="system" symbolScale="default" renderingMode="original"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="29"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="centerViewInUserLocation" destination="Puf-gb-v1s" eventType="touchUpInside" id="qog-Hq-iZT"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RZq-Qm-zV7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Bq5-rn-bOV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aRh-m4-Sjm" secondAttribute="leading" symbolic="YES" id="B5y-cU-Kle"/>
+                            <constraint firstItem="RZq-Qm-zV7" firstAttribute="trailing" secondItem="q4B-dC-sA6" secondAttribute="trailing" constant="8" id="DN1-Wc-PRB"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="bottom" secondItem="RZq-Qm-zV7" secondAttribute="bottom" id="Lg5-ef-ZvR"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="trailing" secondItem="RZq-Qm-zV7" secondAttribute="trailing" id="QXi-lG-0jV"/>
-                            <constraint firstItem="Bq5-rn-bOV" firstAttribute="top" secondItem="RZq-Qm-zV7" secondAttribute="top" constant="8" id="SQy-gZ-1Y8"/>
+                            <constraint firstItem="Bq5-rn-bOV" firstAttribute="top" secondItem="aRh-m4-Sjm" secondAttribute="top" constant="67" id="SQy-gZ-1Y8"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="leading" secondItem="RZq-Qm-zV7" secondAttribute="leading" id="fS1-vv-JQn"/>
-                            <constraint firstItem="RZq-Qm-zV7" firstAttribute="trailing" secondItem="Bq5-rn-bOV" secondAttribute="trailing" constant="8" id="gFJ-vg-NeC"/>
+                            <constraint firstAttribute="trailing" secondItem="Bq5-rn-bOV" secondAttribute="trailing" constant="8" id="gFJ-vg-NeC"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="top" secondItem="aRh-m4-Sjm" secondAttribute="top" id="jsy-EP-Pbg"/>
+                            <constraint firstItem="Bq5-rn-bOV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aRh-m4-Sjm" secondAttribute="leading" symbolic="YES" id="p4O-5d-b7a"/>
+                            <constraint firstItem="RZq-Qm-zV7" firstAttribute="bottom" secondItem="q4B-dC-sA6" secondAttribute="bottom" constant="40" id="ztd-9j-zNS"/>
                         </constraints>
                     </view>
                     <connections>
@@ -436,8 +459,9 @@
     <resources>
         <image name="Image Of Place" width="249" height="250"/>
         <image name="arrow.down" catalog="system" width="118" height="128"/>
+        <image name="location.circle.fill" catalog="system" width="128" height="123"/>
         <image name="mappin" catalog="system" width="106" height="128"/>
-        <image name="xmark" catalog="system" width="128" height="113"/>
+        <image name="xmark.app.fill" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
