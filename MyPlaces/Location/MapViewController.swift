@@ -17,37 +17,41 @@ class MapViewController: UIViewController {
     // Объявляем locationManager как свойство класса
     let locationManager = CLLocationManager()
     let annotationIdentifier = "annotationIdentifier"
-    let regionInMeters = 10_000.00
+    let regionInMeters = 1_000.00
+    var incomeSequeIdentifier = ""
   
-    
     @IBOutlet var mapView: MKMapView!
+    @IBOutlet var mapPinImage: UIImageView!
+    @IBOutlet var adressLabel: UILabel!
+    @IBOutlet var doneButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // делегат для протокола аннотации MapViewController
-        mapView.delegate = self
-        setupPlaceMark()
-        
-        // Вызываем настройку менеджера
-        checkLocationServices()
+        mapView.delegate = self // делегат для протокола аннотации MapViewController
+        setupMapView()
+        checkLocationServices()  // Вызываем настройку менеджера
     }
     
     @IBAction func centerViewInUserLocation() {
-        
-        // проверяем координаты пользователя
-        if let location = locationManager.location?.coordinate {
-            // если координаты пользователя определены, определяем регион для позиционирования карты
-            let region = MKCoordinateRegion(center: location,
-                                            latitudinalMeters: regionInMeters,
-                                            longitudinalMeters: regionInMeters)
-            //  регион для отображения на экране
-            mapView.setRegion(region, animated: true)
-        }
+     showUserLocation()
+    }
+    
+    @IBAction func doneButtonPressed() {
     }
     
     @IBAction func closeCV() {
         dismiss(animated: true)
+    }
+    
+    // Настройка карты в зависимости от значения свойства incomeSequeIdentifier
+    private func setupMapView() {
+        
+        if incomeSequeIdentifier == "showPlace" {
+            setupPlaceMark()
+            mapPinImage.isHidden = true
+            adressLabel.isHidden = true
+            doneButton.isHidden = true
+        }
     }
     
     // MARK: местоположение на карте
@@ -112,6 +116,8 @@ class MapViewController: UIViewController {
         switch status {
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
+            if incomeSequeIdentifier == "getAdress" { showUserLocation() }
+            break
         case .denied:
             // позволяет отложить вызов Alert на определенное время - сейчас +1 сек
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -129,6 +135,19 @@ class MapViewController: UIViewController {
             print("New case is available")
         }
     }
+    
+    private func showUserLocation() {
+        // проверяем координаты пользователя
+        if let location = locationManager.location?.coordinate {
+            // если координаты пользователя определены, определяем регион для позиционирования карты
+            let region = MKCoordinateRegion(center: location,
+                                            latitudinalMeters: regionInMeters,
+                                            longitudinalMeters: regionInMeters)
+            //  регион для отображения на экране
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
     private func showAlert(title: String, message: String) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -35,6 +35,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             context = appDelegate?.coreDataStack.context
         }
+       
+        
         // Настройка search controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -65,6 +67,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.nameLabel.text = place.name
         cell.locationLabel.text = place.location
         cell.typeLabel.text = place.type
+        
         
         // Если внутри CustomTableViewCell есть свой RatingControl, ему нужно передать значение:
         cell.cellRatingControl.rating = Int(place.rating)
@@ -104,6 +107,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                               image: image,
                               context: context,
                               rating: Int16(0))
+                    
                 }
                 
                 // Сохраняем всё в память устройства

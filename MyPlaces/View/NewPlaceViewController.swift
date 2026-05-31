@@ -26,6 +26,7 @@ class NewPlaceViewController: UITableViewController {
                 print("Путь к базе данных Core Data: \(url.path)")
             }
         
+      
         tableView.tableFooterView = UIView(frame: CGRect(x: 0,
                                                          y: 0,
                                                          width: tableView.frame.size.width,
@@ -79,14 +80,20 @@ class NewPlaceViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier != "showMap" { return }
         
-        let mapVC = segue.destination as! MapViewController
-        // Передаем данные напрямую в свойства контроллера карты
+        // Передаем значение 2-х identifier при переходе на MapViewController
+        guard let identifier = segue.identifier,
+              let mapVC = segue.destination as? MapViewController else { return }
+        
+        mapVC.incomeSequeIdentifier = identifier
+        
+        if identifier == "showPlace" {
+            // Передаем данные напрямую в свойства контроллера карты
             mapVC.placeName = placeName.text
             mapVC.placeLocation = placeLocation.text
             mapVC.placeType = placeType.text
             mapVC.placeImageData = placeImage.image?.pngData()
+        }
     }
     
     func savePlace() {
@@ -108,7 +115,7 @@ class NewPlaceViewController: UITableViewController {
             place.type = placeType.text
             place.imageData = imageData
             place.rating = Int16(ratingControl.rating)
-        //    place.rating = Double(Int(Int16(ratingControl.rating)))
+        
             // Обновляем дату, чтобы при сортировке по дате объект поднялся наверх
             place.date = Date()
             
