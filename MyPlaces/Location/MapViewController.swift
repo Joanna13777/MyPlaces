@@ -22,11 +22,13 @@ class MapViewController: UIViewController {
   
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var mapPinImage: UIImageView!
-    @IBOutlet var adressLabel: UILabel!
+    @IBOutlet var addressLabel: UILabel!
     @IBOutlet var doneButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addressLabel.text = "" // Присваием Label, про открытии карты, пустую строку
         mapView.delegate = self // делегат для протокола аннотации MapViewController
         setupMapView()
         checkLocationServices()  // Вызываем настройку менеджера
@@ -49,7 +51,7 @@ class MapViewController: UIViewController {
         if incomeSequeIdentifier == "showPlace" {
             setupPlaceMark()
             mapPinImage.isHidden = true
-            adressLabel.isHidden = true
+            addressLabel.isHidden = true
             doneButton.isHidden = true
         }
     }
@@ -148,6 +150,15 @@ class MapViewController: UIViewController {
         }
     }
     
+    // Определение адреса под маркером
+    private func getCenterLocation(for mapView: MKMapView) -> CLLocation {
+        
+        let latitude = mapView.centerCoordinate.latitude //координаты ширины
+        let longitude = mapView.centerCoordinate.longitude //координаты долготы
+        
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    
     private func showAlert(title: String, message: String) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -189,6 +200,40 @@ extension MapViewController: MKMapViewDelegate {
         
         // возрщаем объект
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        
+        let center = getCenterLocation(for: mapView)
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(center) { (placemarks, error) in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+             
+            // Получаем адрес
+            // извлекаем метку
+            guard let placemarks = placemarks else { return }
+            // извлекаем улицу и номер дома
+            let placemark = placemarks.first
+            let streetName = placemark?.thoroughfare
+            let buildNumber = placemark?.subThoroughfare
+            
+            // передаем текущее значение в Label
+            DispatchQueue.main.async {
+                
+                if streetName != nil && buildNumber != nil {
+                    self.addressLabel.text = "\(streetName!), \(buildNumber!)"
+                } else if streetName != nil {
+                    self.addressLabel.text = "\(streetName!)"
+                } else {
+                    self.addressLabel.text = ""
+                }
+            }
+        }
     }
 }
 extension MapViewController: CLLocationManagerDelegate {

@@ -26,7 +26,11 @@ class NewPlaceViewController: UITableViewController {
                 print("Путь к базе данных Core Data: \(url.path)")
             }
         
-      
+        
+         // Включаем динамический перенос и автоматическую высоту ячеек
+                 tableView.rowHeight = UITableView.automaticDimension
+                 tableView.estimatedRowHeight = 85
+        
         tableView.tableFooterView = UIView(frame: CGRect(x: 0,
                                                          y: 0,
                                                          width: tableView.frame.size.width,
@@ -76,6 +80,7 @@ class NewPlaceViewController: UITableViewController {
             view.endEditing(true)
         }
     }
+    
     
     // MARK: - Navigation
     

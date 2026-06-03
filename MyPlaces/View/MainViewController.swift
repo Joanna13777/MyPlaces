@@ -36,6 +36,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             context = appDelegate?.coreDataStack.context
         }
        
+        // Включаем динамический перенос и автоматическую высоту ячеек
+                tableView.rowHeight = UITableView.automaticDimension
+                tableView.estimatedRowHeight = 85
         
         // Настройка search controller
         searchController.searchResultsUpdater = self
@@ -102,7 +105,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     
                     // Создаем объект Core Data
                     _ = Place(name: name,
-                              location: "Ташкент",
+                              location: "Лондон",
                               type: "Ресторан",
                               image: image,
                               context: context,
@@ -199,6 +202,17 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         }
     }
+    
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        
+//        // Разрешаем перенос строк для нужных лейблов
+//        nameLabel.numberOfLines = 0
+//        nameLabel.lineBreakMode = .byWordWrapping
+//        
+//        placeLocation.numberOfLines = 0
+//        placeLocation.lineBreakMode = .byWordWrapping
+//    }
     
     @IBAction func unwindSegue(_ segue: UIStoryboardSegue) {
         guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
