@@ -80,7 +80,7 @@ class NewPlaceViewController: UITableViewController {
             view.endEditing(true)
         }
     }
-    
+     
     
     // MARK: - Navigation
     
@@ -91,6 +91,7 @@ class NewPlaceViewController: UITableViewController {
               let mapVC = segue.destination as? MapViewController else { return }
         
         mapVC.incomeSequeIdentifier = identifier
+        mapVC.mapViewControllerDelegate = self
         
         if identifier == "showPlace" {
             // Передаем данные напрямую в свойства контроллера карты
@@ -224,5 +225,12 @@ extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationC
         imageIsChanged = true
         
         dismiss(animated: true)
+    }
+}
+
+// Объявим текущий класс делегатом
+extension NewPlaceViewController: MapViewControllerDelegate {
+    func getAddress(_ address: String?) {
+        placeLocation.text = address
     }
 }

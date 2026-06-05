@@ -3,17 +3,19 @@ import UIKit
 import MapKit
 import CoreLocation
 
-
+protocol MapViewControllerDelegate {
+    func getAddress(_ address: String?)
+}
 
 class MapViewController: UIViewController {
-
-    var place = Place()
+    var mapViewControllerDelegate: MapViewControllerDelegate? // делегат класса MapVC
     
+    var place = Place()
         var placeName: String?
         var placeLocation: String?
         var placeType: String?
         var placeImageData: Data?
-    
+
     // Объявляем locationManager как свойство класса
     let locationManager = CLLocationManager()
     let annotationIdentifier = "annotationIdentifier"
@@ -39,6 +41,8 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func doneButtonPressed() {
+        mapViewControllerDelegate?.getAddress(addressLabel.text)
+        dismiss(animated: true)
     }
     
     @IBAction func closeCV() {
