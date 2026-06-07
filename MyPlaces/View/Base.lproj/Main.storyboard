@@ -471,6 +471,21 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MhP-Cw-XnT">
+                                <rect key="frame" x="172" y="764" width="49" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="8dQ-W9-4Z2"/>
+                                    <constraint firstAttribute="height" constant="50" id="BL5-sY-aHt"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="chevron.forward.circle.fill" catalog="system" renderingMode="original"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="33"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="goButtonPressed" destination="Puf-gb-v1s" eventType="touchUpInside" id="fIA-UJ-0nq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="RZq-Qm-zV7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -478,6 +493,7 @@
                             <constraint firstItem="Bq5-rn-bOV" firstAttribute="trailing" secondItem="aRh-m4-Sjm" secondAttribute="trailingMargin" id="4WD-YJ-LWx"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="top" secondItem="aRh-m4-Sjm" secondAttribute="top" id="7dX-d0-5bJ"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="trailing" secondItem="RZq-Qm-zV7" secondAttribute="trailing" id="9AA-bY-78Y"/>
+                            <constraint firstItem="RZq-Qm-zV7" firstAttribute="bottom" secondItem="MhP-Cw-XnT" secondAttribute="bottom" constant="4" id="CUy-Y8-mFq"/>
                             <constraint firstItem="Bq5-rn-bOV" firstAttribute="top" secondItem="RZq-Qm-zV7" secondAttribute="top" constant="9" id="EL3-Qc-08b"/>
                             <constraint firstItem="Cga-pS-Ndg" firstAttribute="top" secondItem="KyT-kR-uJC" secondAttribute="bottom" constant="-378" id="IyL-jp-EMj"/>
                             <constraint firstAttribute="bottom" secondItem="Cga-pS-Ndg" secondAttribute="bottom" id="JTN-x3-flO"/>
@@ -486,10 +502,12 @@
                             <constraint firstItem="RZq-Qm-zV7" firstAttribute="trailing" secondItem="q4B-dC-sA6" secondAttribute="trailing" constant="16" id="T73-p5-0je"/>
                             <constraint firstItem="RZq-Qm-zV7" firstAttribute="bottom" secondItem="ERX-kq-g7e" secondAttribute="bottom" constant="4" id="Uk4-Cn-2xW"/>
                             <constraint firstItem="aup-qM-xUe" firstAttribute="centerX" secondItem="aRh-m4-Sjm" secondAttribute="centerX" id="Xap-hu-xG1"/>
+                            <constraint firstItem="RZq-Qm-zV7" firstAttribute="trailing" secondItem="MhP-Cw-XnT" secondAttribute="trailing" constant="172" id="Y2W-kU-OHt"/>
                             <constraint firstItem="ERX-kq-g7e" firstAttribute="leading" secondItem="RZq-Qm-zV7" secondAttribute="leading" constant="16" id="c7E-v7-7bW"/>
                             <constraint firstItem="KyT-kR-uJC" firstAttribute="leading" secondItem="RZq-Qm-zV7" secondAttribute="leading" constant="16" id="eVz-Xc-Qia"/>
                             <constraint firstItem="aup-qM-xUe" firstAttribute="centerY" secondItem="aRh-m4-Sjm" secondAttribute="centerY" constant="-20" id="fRt-uj-bsn"/>
                             <constraint firstItem="RZq-Qm-zV7" firstAttribute="trailing" secondItem="KyT-kR-uJC" secondAttribute="trailing" constant="16" id="gib-vn-c5d"/>
+                            <constraint firstItem="MhP-Cw-XnT" firstAttribute="centerX" secondItem="aRh-m4-Sjm" secondAttribute="centerX" id="vef-Ww-NqI"/>
                             <constraint firstItem="RZq-Qm-zV7" firstAttribute="trailing" secondItem="ERX-kq-g7e" secondAttribute="trailing" constant="16" id="zia-Nb-s0Y"/>
                         </constraints>
                     </view>
@@ -497,6 +515,7 @@
                     <connections>
                         <outlet property="addressLabel" destination="KyT-kR-uJC" id="eTp-Na-Scj"/>
                         <outlet property="doneButton" destination="ERX-kq-g7e" id="4cf-f6-fcw"/>
+                        <outlet property="goButton" destination="MhP-Cw-XnT" id="Qma-PR-PKN"/>
                         <outlet property="mapPinImage" destination="aup-qM-xUe" id="gai-mT-Ote"/>
                         <outlet property="mapView" destination="Cga-pS-Ndg" id="Vol-E2-uWv"/>
                     </connections>
@@ -513,6 +532,7 @@
     <resources>
         <image name="Image Of Place" width="249" height="250"/>
         <image name="arrow.down" catalog="system" width="118" height="128"/>
+        <image name="chevron.forward.circle.fill" catalog="system" width="128" height="123"/>
         <image name="location.circle.fill" catalog="system" width="128" height="123"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="mappin" catalog="system" width="106" height="128"/>
@@ -522,7 +542,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

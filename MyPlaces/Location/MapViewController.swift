@@ -8,8 +8,8 @@ protocol MapViewControllerDelegate {
 }
 
 class MapViewController: UIViewController {
-    var mapViewControllerDelegate: MapViewControllerDelegate? // делегат класса MapVC
     
+    var mapViewControllerDelegate: MapViewControllerDelegate? // делегат класса MapVC
     var place = Place()
         var placeName: String?
         var placeLocation: String?
@@ -21,11 +21,13 @@ class MapViewController: UIViewController {
     let annotationIdentifier = "annotationIdentifier"
     let regionInMeters = 1_000.00
     var incomeSequeIdentifier = ""
+    var placeCoordinate: CLLocationCoordinate2D?
   
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var mapPinImage: UIImageView!
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var doneButton: UIButton!
+    @IBOutlet var goButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +47,10 @@ class MapViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    @IBAction func goButtonPressed() {
+        getDirections()
+    }
+    
     @IBAction func closeCV() {
         dismiss(animated: true)
     }
@@ -52,11 +58,14 @@ class MapViewController: UIViewController {
     // Настройка карты в зависимости от значения свойства incomeSequeIdentifier
     private func setupMapView() {
         
+        goButton.isHidden = true
+        
         if incomeSequeIdentifier == "showPlace" {
             setupPlaceMark()
             mapPinImage.isHidden = true
             addressLabel.isHidden = true
             doneButton.isHidden = true
+            goButton.isHidden =  false
         }
     }
     
@@ -90,6 +99,7 @@ class MapViewController: UIViewController {
             guard let placemarkLocation = placemark?.location else { return }
             
             annotation.coordinate = placemarkLocation.coordinate
+            self.placeCoordinate = placemarkLocation.coordinate // координаты заведения
                     
             // видимая область для аннотации
             self.mapView.showAnnotations([annotation], animated: true)
@@ -152,6 +162,55 @@ class MapViewController: UIViewController {
             //  регион для отображения на экране
             mapView.setRegion(region, animated: true)
         }
+    }
+    
+    // Орпеделим координаты местоположения пользователя
+    private func getDirections() {
+        guard let location = locationManager.location?.coordinate else {
+            showAlert(title: "Error", message: "Currrent location is not found")
+            return
+        }
+       guard let request = createDirectionRequest(from: location) else {
+            showAlert(title: "Error", message: "Destination is not found")
+            return
+        }
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { (responce, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let response = responce else {
+                self.showAlert(title: "Error", message: "Directions is not available")
+                return
+            }
+            for route in response.routes {
+                self.mapView.addOverlay(route.polyline)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                
+                let distance = String(format: "%.1f", route.distance / 1000)
+                let timeInterval = route.expectedTravelTime
+                
+                print("Расстояние до места: \(distance) .")
+                print("Расстояние в пути составит: \(timeInterval) .")
+            }
+        }
+    }
+    
+    // Запрос чтобы проложить маршрут
+    private func createDirectionRequest(from coordinate: CLLocationCoordinate2D) -> MKDirections.Request? {
+        
+        guard let destinationCoordinate = placeCoordinate else { return nil }
+        let startingLocation = MKPlacemark(coordinate: coordinate) // точка для начала маршрута
+        let destination = MKPlacemark(coordinate: destinationCoordinate)// точка места назначения
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startingLocation)
+        request.destination = MKMapItem(placemark: destination)
+        request.transportType = .automobile
+        request.requestsAlternateRoutes = true
+        return request
     }
     
     // Определение адреса под маркером
@@ -238,6 +297,13 @@ extension MapViewController: MKMapViewDelegate {
                 }
             }
         }
+    }
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        renderer.strokeColor = .blue
+        
+        return renderer
     }
 }
 extension MapViewController: CLLocationManagerDelegate {
