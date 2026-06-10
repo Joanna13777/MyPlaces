@@ -131,13 +131,13 @@
                                                     <rect key="frame" x="16" y="8" width="327" height="63"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RE-Ry-8JU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="327" height="28.666666666666668"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="327" height="28.333333333333332"/>
                                                             <fontDescription key="fontDescription" name="AppleSDGothicNeo-Thin" family="Apple SD Gothic Neo" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" placeholder="Place location" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lrW-Su-2OA">
-                                                            <rect key="frame" x="0.0" y="36.666666666666664" width="327" height="26.333333333333336"/>
+                                                            <rect key="frame" x="0.0" y="36.333333333333336" width="327" height="26.666666666666664"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                                             <connections>
@@ -149,8 +149,8 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwz-O5-wn4" userLabel="Mappin">
                                                     <rect key="frame" x="351" y="46.666666666666664" width="22" height="21.999999999999993"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="QVn-Ax-dp2"/>
-                                                        <constraint firstAttribute="width" constant="22" id="qQ2-K3-jJf"/>
+                                                        <constraint firstAttribute="height" constant="22" id="Jn2-Rj-vcS"/>
+                                                        <constraint firstAttribute="width" constant="22" id="fC8-PT-nJx"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="mappin.and.ellipse" catalog="system">
@@ -162,12 +162,13 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="centerY" secondItem="lrW-Su-2OA" secondAttribute="centerY" id="2PU-LQ-uej"/>
                                                 <constraint firstAttribute="bottom" secondItem="EJ3-Gd-Cse" secondAttribute="bottom" constant="4" id="7QU-qa-UmP"/>
+                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="leading" secondItem="EJ3-Gd-Cse" secondAttribute="trailing" constant="8" id="Edd-sY-NzO"/>
                                                 <constraint firstItem="EJ3-Gd-Cse" firstAttribute="top" secondItem="LJm-ux-qSu" secondAttribute="top" constant="8" id="GKs-25-ZWg"/>
                                                 <constraint firstItem="EJ3-Gd-Cse" firstAttribute="leading" secondItem="LJm-ux-qSu" secondAttribute="leading" constant="16" id="Ie3-gD-t47"/>
-                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="leading" secondItem="EJ3-Gd-Cse" secondAttribute="trailing" constant="8" id="Jo7-de-KzL"/>
-                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="centerY" secondItem="lrW-Su-2OA" secondAttribute="centerY" id="TEu-vt-IaE"/>
-                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="trailing" secondItem="LJm-ux-qSu" secondAttribute="trailingMargin" id="cRO-mB-4Xe"/>
+                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="trailing" secondItem="LJm-ux-qSu" secondAttribute="trailingMargin" id="OhV-Zd-1uP"/>
+                                                <constraint firstItem="kwz-O5-wn4" firstAttribute="top" secondItem="LJm-ux-qSu" secondAttribute="topMargin" constant="35.666666666666657" id="PHX-mo-Jda"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
@@ -541,7 +542,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

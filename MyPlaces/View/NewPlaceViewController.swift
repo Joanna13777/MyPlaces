@@ -90,15 +90,15 @@ class NewPlaceViewController: UITableViewController {
         guard let identifier = segue.identifier,
               let mapVC = segue.destination as? MapViewController else { return }
         
-        mapVC.incomeSequeIdentifier = identifier
+        mapVC.incomeSegueIdentifier = identifier
         mapVC.mapViewControllerDelegate = self
         
         if identifier == "showPlace" {
             // Передаем данные напрямую в свойства контроллера карты
-            mapVC.placeName = placeName.text
-            mapVC.placeLocation = placeLocation.text
-            mapVC.placeType = placeType.text
-            mapVC.placeImageData = placeImage.image?.pngData()
+            mapVC.place.name = placeName.text
+            mapVC.place.location = placeLocation.text
+            mapVC.place.type = placeType.text
+            mapVC.place.imageData = placeImage.image?.pngData()
         }
     }
     
